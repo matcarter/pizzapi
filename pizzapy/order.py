@@ -1,7 +1,9 @@
+import json
+
 import requests
 
 from .menu import Menu
-from .urls import Urls, COUNTRY_USA 
+from .urls import Urls, COUNTRY_USA
 
 
 # TODO: Add add_coupon and remove_coupon methods
@@ -12,6 +14,7 @@ class Order(object):
     up all the logic for actually placing the order, after we've
     determined what we want from the Menu. 
     """
+
     def __init__(self, store, customer, country=COUNTRY_USA):
         self.store = store
         self.menu = Menu.from_store(store_id=store.id, country=country)
@@ -33,17 +36,17 @@ class Order(object):
             'Partners': {}, 'NewUser': True, 'metaData': {}, 'Amounts': {},
             'BusinessDate': '', 'EstimatedWaitMinutes': '',
             'PriceOrderTime': '', 'AmountsBreakdown': {}
-            }
-
-    @staticmethod
-    def begin_customer_order(customer, store, country=COUNTRY_USA):
-        return Order(store, customer, country=country)
+        }
 
     def __repr__(self):
         return "An order for {} with {} items in it\n".format(
             self.customer.first_name,
             len(self.data['Products']) if self.data['Products'] else 'no',
         )
+
+    @staticmethod
+    def begin_customer_order(customer, store, country=COUNTRY_USA):
+        return Order(store, customer, country=country)
 
     # TODO: Implement item options
     # TODO: Add exception handling for KeyErrors
@@ -112,7 +115,7 @@ class Order(object):
         """Use this instead of self.place when testing"""
         # get the price to check that everything worked okay
         response = self._send(self.urls.price_url(), True)
-        
+
         if response['Status'] == -1:
             raise Exception('get price failed: %r' % response)
 
@@ -136,3 +139,34 @@ class Order(object):
             ]
 
         return response
+
+    def save(self, filename="data/coupons/coupon1.json"):
+        """
+        saves the current coupon to a .json file for loading later
+        """
+        if not filename.startswith("data/orders"):
+            filename = "data/orders/" + filename
+        json_dict = {"store": self.store,
+                     "menu": self.menu,
+                     "customer": self.customer,
+                     "address": self.address,
+                     "urls": self.urls,
+                     "data": self.data}
+
+        with open(filename, "w") as f:
+            json.dump(json_dict, f)
+
+    @staticmethod
+    def load(filename):
+        """
+        load and return a new coupon object from a json file
+        """
+        with open(filename, "r") as f:
+            data = json.load(f)
+
+            order = Order(data["store"],
+                          data["customer"])
+
+            order.data = data["data"]
+
+        return order
