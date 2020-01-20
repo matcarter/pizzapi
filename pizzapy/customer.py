@@ -1,6 +1,7 @@
 from .address import Address
 import json
 
+
 class Customer:
     """The Customer who orders a pizza."""
 
@@ -12,17 +13,17 @@ class Customer:
         self.str_address = address
         self.address = Address(*address.split(','))
 
-    def save(self, filename="customers/customer1.json"):
+    def save(self, filename="data/customers/customer1.json"):
         """
         saves the current customer to a .json file for loading later
         """
-        if not filename.startswith("customers"):
-            filename = "customers/" + filename
+        if not filename.startswith("data/customers"):
+            filename = "data/customers/" + filename
         json_dict = {"first_name": self.first_name,
-             "last_name": self.last_name,
-             "email": self.email,
-             "phone": self.phone,
-             "address": self.str_address}
+                     "last_name": self.last_name,
+                     "email": self.email,
+                     "phone": self.phone,
+                     "address": self.str_address}
 
         with open(filename, "w") as f:
             json.dump(json_dict, f)
@@ -35,7 +36,7 @@ class Customer:
         with open(filename, "r") as f:
             data = json.load(f)
 
-            customer = Customer(data["first_name"], 
+            customer = Customer(data["first_name"],
                                 data["last_name"],
                                 data["email"],
                                 data["phone"],

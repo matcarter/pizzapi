@@ -1,6 +1,7 @@
 COUNTRY_USA = 'us'
 COUNTRY_CANADA = 'ca'
 
+
 class Urls(object):
     """URLs for doing different things to the API.
 

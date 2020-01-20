@@ -3,7 +3,6 @@ from .urls import Urls, COUNTRY_USA
 from .utils import request_json
 
 
-
 class Store(object):
     """The interface to the Store API
 
@@ -26,7 +25,7 @@ class Store(object):
     def get_details(self):
         details = request_json(self.urls.info_url(), store_id=self.id)
         return details
-    
+
     def place_order(self, order, card):
         print('Order placed for {}'.format(order.customer.first_name))
         return order.place(card=card)
