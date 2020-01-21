@@ -82,6 +82,7 @@ class ConsoleInput:
                     customers.append(cur_customer)
                     print(str(i + 1) + ".")
                     print(cur_customer)
+                    print()
 
                 while True:
                     ind = input("\nType the index of the entry you'd like to select: ")

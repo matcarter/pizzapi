@@ -140,9 +140,9 @@ class Order(object):
 
         return response
 
-    def save(self, filename="data/coupons/coupon1.json"):
+    def save(self, filename="data/orders/order1.json"):
         """
-        saves the current coupon to a .json file for loading later
+        saves the current order to a .json file for loading later
         """
         if not filename.startswith("data/orders"):
             filename = "data/orders/" + filename
