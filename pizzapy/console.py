@@ -23,7 +23,7 @@ class ConsoleInput:
         print("To start an order you must provide the following details.\n")
         print("- COUNTRY -")
         is_canada = input("If you are ordering from Canada please type \"YES\" now: ")
-        if is_canada.strip().upper() in ["YES","Y", "YA"]:
+        if is_canada.strip().upper() in ["YES", "Y", "YA"]:
             ConsoleInput.country = "CA"
 
         print("\n- NAME -")
@@ -32,7 +32,8 @@ class ConsoleInput:
 
         print("\n- CONTACT -")
         email = ConsoleInput.get_valid_input("Please type your EMAIL address: ", ConsoleInput.validate_email)
-        phone = ConsoleInput.get_valid_input("Please type your PHONE NUMBER (no area code): ", ConsoleInput.validate_phone).replace("-", "").replace("(", "").replace(")", "")
+        phone = ConsoleInput.get_valid_input("Please type your PHONE NUMBER: ", ConsoleInput.validate_phone) \
+            .replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
 
         print("\n- ADDRESS -")
         print("Please type your ADDRESS using the following form.")
@@ -44,7 +45,8 @@ class ConsoleInput:
 
         address = ConsoleInput.get_valid_input("ADDRESS: ", ConsoleInput.validate_address)
 
-        customer = Customer(last_name, first_name, email, phone, address)
+        customer = Customer(first_name, last_name, email, phone, address)
+
         return customer
 
     @staticmethod
@@ -78,7 +80,7 @@ class ConsoleInput:
                 for i in range(len(customer_files)):
                     cur_customer = ConsoleInput.load_customer(customer_files[i])
                     customers.append(cur_customer)
-                    print(str(i+1) + ".")
+                    print(str(i + 1) + ".")
                     print(cur_customer)
 
                 while True:
@@ -86,7 +88,7 @@ class ConsoleInput:
                     if ind.isdigit():
                         ind = int(ind)
                         if 0 < ind <= len(customer_files):
-                            customer = customers[ind-1]
+                            customer = customers[ind - 1]
                             break
                     else:
                         print("Invalid, try again.")
@@ -156,7 +158,8 @@ class ConsoleInput:
         """
         returns if the given phone number is valid
         """
-        phone = phone.replace("-", "").replace("(", "").replace(")", "")
+        phone = phone.replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+
         return phone.isdigit() and len(phone) == 10
 
     @staticmethod

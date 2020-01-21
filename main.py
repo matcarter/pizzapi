@@ -10,7 +10,7 @@ def main():
     customer = ConsoleInput.get_customer()
     customer.save(customer.first_name + " " + customer.last_name)
     show_stores(customer, 5)
-    card = ConsoleInput.get_credit_card()
+    # card = ConsoleInput.get_credit_card()
 
 
 def show_stores(customer, k):
